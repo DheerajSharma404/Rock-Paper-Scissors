@@ -22,11 +22,8 @@ const computerwiningIndicator = document.querySelector(
   "#computerwiningIndicator"
 );
 
-console.log("mobileplayButton", mobilePlayButton);
-console.log("mobileResultText", mobileResultText);
-
-var userChoice;
-var computerChoice;
+let userChoice;
+let computerChoice;
 
 let userScore = localStorage.getItem("userScore") || 0;
 let computerScore = localStorage.getItem("computerScore") || 0;
@@ -40,7 +37,7 @@ const generateComputerChoice = () => {
   return choices[randomIndex];
 };
 
-window.onload = function () {
+const reset = () => {
   resultScreen.style.display = "none";
   gameScreen.style.display = "block";
 
@@ -58,40 +55,43 @@ window.onload = function () {
   computerwiningIndicator.style.display = "none";
 };
 
+const userWins = () => {
+  userScore++;
+  localStorage.setItem("userScore", `${userScore}`);
+  userScoreValue.textContent = userScore;
+  nextButton.style.display = "flex";
+  resultText.textContent = "YOU WIN";
+  mobileResultText.textContent = "YOU WIN";
+  userwiningIndicator.style.display = "flex";
+};
+
+const tieUp = () => {
+  resultText.textContent = "TIE UP";
+  mobileResultText.textContent = "TIE UP";
+  playAgain.textContent = "REPLAY";
+  mobilePlayButton.textContent = "REPLAY";
+};
+
+const computerWins = () => {
+  computerScore++;
+  localStorage.setItem("computerScore", `${computerScore}`);
+  computerScoreValue.textContent = computerScore;
+  nextButton.style.display = "none";
+  resultText.textContent = "YOU LOST";
+  mobileResultText.textContent = "YOU LOST";
+  computerwiningIndicator.style.display = "flex";
+};
+
+window.onload = function () {
+  reset();
+};
+
 playAgain.addEventListener("click", () => {
-  resultScreen.style.display = "none";
-  gameScreen.style.display = "block";
-
-  userPick.classList.remove(`${userChoice}`);
-  userChoiceImage.src = "";
-
-  computerChoiceImage.src = "";
-  computerPick.classList.remove(`${computerChoice}`);
-
-  playAgain.textContent = "PLAY AGAIN";
-  userChoice = "";
-  computerChoice = "";
-
-  userwiningIndicator.style.display = "none";
-  computerwiningIndicator.style.display = "none";
+  reset();
 });
 
 mobilePlayButton.addEventListener("click", () => {
-  resultScreen.style.display = "none";
-  gameScreen.style.display = "block";
-
-  userPick.classList.remove(`${userChoice}`);
-  userChoiceImage.src = "";
-
-  computerChoiceImage.src = "";
-  computerPick.classList.remove(`${computerChoice}`);
-
-  playAgain.textContent = "PLAY AGAIN";
-  userChoice = "";
-  computerChoice = "";
-
-  userwiningIndicator.style.display = "none";
-  computerwiningIndicator.style.display = "none";
+  reset();
 });
 
 let isRuleBoxOpen = true;
@@ -119,28 +119,11 @@ rock.addEventListener("click", () => {
   computerPick.classList.add(`${computerChoice}`);
 
   if (userChoice === "rock" && computerChoice === "scissors") {
-    userScore++;
-    localStorage.setItem("userScore", `${userScore}`);
-    userScoreValue.textContent = userScore;
-    nextButton.style.display = "flex";
-    resultText.textContent = "YOU WIN";
-    mobileResultText.textContent = "YOU WIN";
-    userwiningIndicator.style.display = "flex";
+    userWins();
   } else if (userChoice === computerChoice) {
-    console.log("it' tie play again");
-    resultText.textContent = "TIE UP";
-    mobileResultText.textContent = "TIE UP";
-    playAgain.textContent = "REPLAY";
-    mobilePlayButton.textContent = "REPLAY";
+    tieUp();
   } else {
-    console.log("computer wins");
-    computerScore++;
-    localStorage.setItem("computerScore", `${computerScore}`);
-    computerScoreValue.textContent = computerScore;
-    nextButton.style.display = "none";
-    resultText.textContent = "YOU LOST";
-    mobileResultText.textContent = "YOU LOST";
-    computerwiningIndicator.style.display = "flex";
+    computerWins();
   }
 });
 
@@ -157,28 +140,11 @@ paper.addEventListener("click", () => {
   computerPick.classList.add(`${computerChoice}`);
 
   if (userChoice === "paper" && computerChoice === "rock") {
-    userScore++;
-    localStorage.setItem("userScore", `${userScore}`);
-    userScoreValue.textContent = userScore;
-    nextButton.style.display = "flex";
-    resultText.textContent = "YOU WIN";
-    mobileResultText.textContent = "YOU WIN";
-    userwiningIndicator.style.display = "flex";
+    userWins();
   } else if (userChoice === computerChoice) {
-    console.log("it' tie play again");
-    resultText.textContent = "TIE UP";
-    mobileResultText.textContent = "TIE UP";
-    playAgain.textContent = "REPLAY";
-    mobilePlayButton.textContent = "REPLAY";
+    tieUp();
   } else {
-    console.log("computer wins");
-    computerScore++;
-    localStorage.setItem("computerScore", `${computerScore}`);
-    computerScoreValue.textContent = computerScore;
-    nextButton.style.display = "none";
-    resultText.textContent = "YOU LOST";
-    mobileResultText.textContent = "YOU LOST";
-    computerwiningIndicator.style.display = "flex";
+    computerWins();
   }
 });
 
@@ -195,27 +161,10 @@ scissors.addEventListener("click", () => {
   computerPick.classList.add(`${computerChoice}`);
 
   if (userChoice === "scissors" && computerChoice === "paper") {
-    userScore++;
-    localStorage.setItem("userScore", `${userScore}`);
-    userScoreValue.textContent = userScore;
-    nextButton.style.display = "flex";
-    resultText.textContent = "YOU WIN";
-    mobileResultText.textContent = "YOU WIN";
-    userwiningIndicator.style.display = "flex";
+    userWins();
   } else if (userChoice === computerChoice) {
-    console.log("it' tie play again");
-    resultText.textContent = "TIE UP";
-    mobileResultText.textContent = "TIE UP";
-    playAgain.textContent = "REPLAY";
-    mobilePlayButton.textContent = "REPLAY";
+    tieUp();
   } else {
-    console.log("computer wins");
-    computerScore++;
-    localStorage.setItem("computerScore", `${computerScore}`);
-    computerScoreValue.textContent = computerScore;
-    nextButton.style.display = "none";
-    resultText.textContent = "YOU LOST";
-    mobileResultText.textContent = "YOU LOST";
-    computerwiningIndicator.style.display = "flex";
+    computerWins;
   }
 });
